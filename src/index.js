@@ -8,8 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         createAccount()
     })
   
+    oldPlayer.addEventListener
   })
   
   function createAccount () {
-  fetch something
+  console.log("You're making a new player! Huzzah!")
   }
+
