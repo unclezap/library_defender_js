@@ -33,13 +33,10 @@ document.addEventListener("DOMContentLoaded", function() {
   
     oldPlayer.addEventListener("click", function(event) {
         event.preventDefault()
-<<<<<<< HEAD
         getUsers(event)
-=======
         const contentBox = document.getElementById('bigbox')
         contentBox.className = "contentbox"
         findUser(event)
->>>>>>> feature
     })
   })
   
