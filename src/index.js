@@ -1,4 +1,6 @@
 const usersURL = 'http://localhost:3000/users'
+const skull = document.getElementById("skull")
+
 
 document.addEventListener("DOMContentLoaded", function() {
     const newPlayer = document.getElementById("createAccountButton")
@@ -13,7 +15,34 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault()
         getUsers(event)
     })
+
+
+    skull.addEventListener("dragend", function (event) {
+        console.log(event)
+        // debugger;
+        skull.style.left = `${event.screenX}px`;
+        skull.style.bottom = `${event.screenY}px`;
+
+        // debugger;
+    })
   })
+
+//   function allowDrop(event) {
+//       event.preventDefault()
+//   }
+
+//   function drag(event) {
+      
+//   }
+
+//   function drop(event) {
+//       event.preventDefault();
+//       debugger;
+//       skull.style.left = `${event.screenX}px`;
+//       skull.style.bottom = `${event.screenY}px`;
+
+//         debugger;
+//   }
   
   function createUser () {
     newUser = {name: "Testy McTesterson"}
