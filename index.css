@@ -8,14 +8,22 @@
 }
 .title {
     font-family: 'Cinzel', serif;
-    font-weight: bolder;
+    font-weight: 1000;
     float: left;
     color: #f2f2f2;
     padding-left: 2%;
     padding-right: 2%;
     text-decoration: none;
-    font-size: 19px;
+    font-size: 20px;
+    /* not working text-shadow: #000, 20px 20px; */
 }
+.skullOnBooks {
+   width: 75px;
+   position: relative;
+   left: -14px;
+   height: auto;
+}
+
 .navbutton {
     font-family: 'Cinzel', serif;
     float: left;
@@ -25,9 +33,29 @@
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    margin-left: 6px;
 }
 .navbutton:hover {
     background-color: #ddd;
     color: black;
     font-size: large;
+}
+.biglogo {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: auto;
+}
+.contentbox {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 1000px;
+    height: 500;
+    background-color: #333;
+    padding: 50px;
+    margin: auto; 
+    margin-top: 55px;
+    
+
 }
