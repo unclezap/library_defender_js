@@ -15,11 +15,15 @@
 
 
     <!-- big logo for home page -->
-    <div hidden>  
+    <div id="bigLogoDiv">  
         <img class="biglogo" src="src/images/skullonbooks.png">
     </div>
-    <div class="contentbox">
-          
+    <div id="bigbox" class="hiddencontentbox">
+        <form id="newUserForm" class="form">
+            <p class="formtitle">Create a New User</p>
+            <input class="formInputBox" type="text" placeholder="Username" name="newUserName">
+            <input class="formsubmit" type="submit">
+        </form>
     </div>
 </body>
 <script src="src/index.js"></script>
