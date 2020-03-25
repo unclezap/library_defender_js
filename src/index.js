@@ -95,7 +95,18 @@ document.addEventListener("DOMContentLoaded", function() {
         contentBox.className = "contentbox"
         map.hidden = true
         const oldGamesForm = document.getElementById('oldGamesForm')
-        showGames()
+        const games = showGames(gameData)
+        console.log(games)
+        games.forEach(function(game){
+            const oldGameInput = document.createElement('input')
+            oldGameInput.type = "button"
+            oldGameInput.textContent = `Level ${game.level} - $${game.money} - ${game.created_at}`
+            oldGamesForm.appendChild(oldGameInput)
+            oldGameInput.addEventListener('click', function(event){
+                event.preventDefault()
+                // start game
+            })
+        })
     })
   })
   
