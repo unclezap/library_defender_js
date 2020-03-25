@@ -84,11 +84,8 @@
     height: 10%;
     font-size: 115%;
 }
-#maparea {
-    background-image: url(src/images/map.png);
-    width: 105%;
+.mapcss {
+    width: 106%;
     height: 112.9%;
-    /* background-position: center; */
-    background-size: cover;
-    /* align-self: center; */
+    align-self: center;
 }

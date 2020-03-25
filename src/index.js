@@ -68,10 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     signOut.addEventListener('click', function(event){
         event.preventDefault()
-        const map = document.getElementById('maparea')
-        const contentBox = document.getElementById('bigbox')
-        contentBox.className = "hiddencontentbox"
-        map.hidden = true
+
         newPlayer.hidden = false
         oldPlayer.hidden = false
         signOut.hidden = true
