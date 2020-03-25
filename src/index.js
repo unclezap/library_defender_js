@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault()
             //write code that starts a game with the button
             //also we need to add code that shows some message if there are no games for a user
+            //stuff for aidan to do
         })
     })
 
