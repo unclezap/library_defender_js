@@ -20,15 +20,15 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault()
 
             //use event attributes to create new user
-            
+            //made them in the createUser function instead
             contentBox.className = "hiddencontentbox"
             newPlayer.hidden = true
             oldPlayer.hidden = true
             signOut.hidden = false
             newGame.hidden = false
             oldGame.hidden = false
+            createUser(event)
         })
-        createUser()
     })
   
     oldPlayer.addEventListener("click", function(event) {
@@ -40,8 +40,9 @@ document.addEventListener("DOMContentLoaded", function() {
     })
   })
   
-  function createUser () {
-    newUser = {name: "Testy McTesterson"}
+  function createUser (event) {
+      debugger;
+    newUser = {name: `${event.target.newUserName.value}`}
     console.log("You're making a new player! Huzzah!")
     fetch(usersURL, {
         method: "POST",
@@ -67,9 +68,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function getUsers (userId) {
-    console.log(userId)
-    console.log("You're finding old games!")
-    //need to see what info we get back and set a variable to user_id
+    // console.log(userId) <- don't think this is necessary, will take it out soon
+    console.log("You're finding old users!")
     fetch(usersURL)
     .then(function(response) {
         return response.json()
