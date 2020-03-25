@@ -88,7 +88,27 @@
     background-image: url(src/images/map.png);
     width: 105%;
     height: 112.9%;
-    /* background-position: center; */
     background-size: cover;
-    /* align-self: center; */
+}
+.sidenav {
+    height: 73.5%; /* Full-height: remove this if you want "auto" height */
+    width: 155px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 5; /* Stay on top */
+    top: 129; /* Stay at the top */
+    left: 8;
+    background-color: #333; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+.sidenavtitle {
+    font-family: 'Cinzel', serif;
+    font-weight: 1000;
+    float: left;
+    color: #f2f2f2;
+    padding-left: 2%;
+    padding-right: 2%;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px white;
 }
