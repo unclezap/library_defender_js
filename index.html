@@ -19,17 +19,28 @@
         <img class="biglogo" src="src/images/skullonbooks.png">
     </div>
     <div id="bigbox" class="hiddencontentbox">
+        <!-- new user form -->
         <form hidden id="newUserForm" class="form">
             <p class="formtitle">Create a New User</p>
             <input class="formInputBox" type="text" placeholder="Username" name="newUserName">
             <input class="formsubmit" type="submit">
         </form>
-
+        <!-- old user form -->
         <form hidden id="oldUserForm" class="form">
             <p class="formtitle">Sign in</p>
             <input class="formInputBox" type="text" placeholder="Username" name="username">
             <input class="formsubmit" type="submit">
         </form>
+
+        <!-- map -->
+        <!-- <div id="maparea"> -->
+            <img hidden id="map" class="mapcss" src="src/images/map.png">
+        <!-- </div> -->
+        <div hidden class="oldGames">
+            <form id="oldGamesForm">
+
+            </form>
+        </div>
     </div>
 </body>
 <script src="src/index.js"></script>
