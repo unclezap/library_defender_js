@@ -68,7 +68,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     signOut.addEventListener('click', function(event){
         event.preventDefault()
-
+        const contentBox = document.getElementById('bigbox')
+        contentBox.className = "hiddencontentbox"
+        thisGame = null
+        thisUser = null
+        userGames = null
         newPlayer.hidden = false
         oldPlayer.hidden = false
         signOut.hidden = true
@@ -81,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
     newGame.addEventListener('click', function(event){
         event.preventDefault()
         createGame()
-        const map = document.getElementById('map')
+        const map = document.getElementById('maparea')
         const contentBox = document.getElementById('bigbox')
         bigLogo.hidden = true
         contentBox.className = "contentbox"
@@ -93,9 +97,23 @@ document.addEventListener("DOMContentLoaded", function() {
         const contentBox = document.getElementById('bigbox')
         bigLogo.hidden = true
         contentBox.className = "contentbox"
+        const map = document.getElementById('maparea')
         map.hidden = true
         const oldGamesForm = document.getElementById('oldGamesForm')
-        showGames()
+        const games = showGames(gameData) 
+        games.forEach(function(game){
+            const oldGameInput = document.createElement('input')
+            oldGameInput.type = "button"
+            oldGameInput.textContent = `Level ${game.level} - $${game.money} - ${game.created_at}`
+            oldGamesForm.appendChild(oldGameInput)
+            oldGameInput.addEventListener('click', function(event){
+                event.preventDefault()
+                // start game
+                oldGamesForm.hidden = true
+                map.hidden = false
+                
+            })
+        })
     })
   })
   
