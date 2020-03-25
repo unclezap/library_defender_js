@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function() {
             oldGame.hidden = false
             newUserForm.hidden = true
             bigLogo.hidden = false
+            oldUserForm.hidden = true
+
         })
     })
 
