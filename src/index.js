@@ -1,4 +1,8 @@
 const usersURL = 'http://localhost:3000/users'
+const gamesURL = 'http://localhost:3000/games'
+let thisUser;
+let thisGame;
+let userGames;
 
 document.addEventListener("DOMContentLoaded", function() {
     const newPlayer = document.getElementById("createAccountButton")
@@ -48,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         oldUserForm.addEventListener('submit', function(event){
             event.preventDefault()
-            const thisUser = getUsers(event.target.username.value)
+            getUsers(event.target.username.value)
             contentBox.className = "hiddencontentbox"
             newPlayer.hidden = true
             oldPlayer.hidden = true
@@ -73,14 +77,17 @@ document.addEventListener("DOMContentLoaded", function() {
         newUserForm.hidden = true
         bigLogo.hidden = false
     })
+
     newGame.addEventListener('click', function(event){
         event.preventDefault()
+        createGame()
         const map = document.getElementById('map')
         const contentBox = document.getElementById('bigbox')
         bigLogo.hidden = true
         contentBox.className = "contentbox"
         map.hidden = false
     })
+
     oldGame.addEventListener('click', function(event){
         event.preventDefault()
         const contentBox = document.getElementById('bigbox')
@@ -88,25 +95,14 @@ document.addEventListener("DOMContentLoaded", function() {
         contentBox.className = "contentbox"
         map.hidden = true
         const oldGamesForm = document.getElementById('oldGamesForm')
-        const games = showGames(gameData)
-        console.log(games)
-        games.forEach(function(game){
-            const oldGameInput = document.createElement('input')
-            oldGameInput.type = "button"
-            oldGameInput.textContent = `Level ${game.level} - $${game.money} - ${game.created_at}`
-            oldGamesForm.appendChild(oldGameInput)
-            oldGameInput.addEventListener('click', function(event){
-                event.preventDefault()
-                // start game
-            })
-        })
+        showGames()
     })
   })
   
   function createUser (event) {
     newUser = {name: `${event.target.newUserName.value}`}
 
-    fetch(usersURL, {
+    thisUser = fetch(usersURL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -120,37 +116,91 @@ document.addEventListener("DOMContentLoaded", function() {
         return response.json()
     })
     .then(function(data) {
+        thisUser = data
         console.log(data)
+    })
+    .catch((error) => {
+        console.error('Error:', error)
+        alert ("OH FUCK - TRY STARTING A RAILS SERVER");
+    })
+  }
+
+  function getUsers (currentUser) {
+    fetch(usersURL)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        findUser(data, currentUser)
+    })
+    .catch((error) => {
+        console.error('Error:', error)
+
+        alert ("OH FUCK - YOU SHOULD PROBABLY START A RAILS SERVER");
+    })
+
+  }
+
+  function findUser(allUsers, currentUser) {
+    thisUser = allUsers.find(user => user.name.toLowerCase() === currentUser.toLowerCase())
+  }
+
+
+
+  function showGames () {
+      console.log("this makes a ul that lists all of the user's games that you can click on to load that game")
+
+      const ourGames = fetch(gamesURL)
+      .then(function(response) {
+          return response.json()
+      })
+      .then(function(data) {
+          makeButtons(data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+        alert ("OH FUCK - YOU SHOULD PROBABLY START A RAILS SERVER");
+      })
+  
+  }
+
+  function makeButtons(allGames) {
+      const games = allGames.filter(game => game.user_id === thisUser.id)
+      const oldGames = document.getElementById("oldGameDiv")
+      oldGames.hidden = false
+      games.forEach(function(game){
+        const oldGameInput = document.createElement('button')
+        oldGameInput.textContent = `Level ${game.current_level} - $${game.money} - ${game.created_at}`
+        oldGamesForm.appendChild(oldGameInput)
+        oldGameInput.addEventListener('click', function(event){
+            event.preventDefault()
+            //write code that starts a game with the button
+            //also we need to add code that shows some message if there are no games for a user
+        })
+    })
+
+  }
+
+  function createGame () {
+    thisGame = fetch(gamesURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            thisUser
+        })      
+    })
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        thisGame = data
     })
     .catch((error) => {
         alert ("OH FUCK - TRY STARTING A RAILS SERVER");
         console.error('Error:', error)
     })
-  }
 
-  function getUsers (currentUser) {
-    const ourUser = fetch(usersURL)
-    .then(function(response) {
-        return response.json()
-    })
-    .then(function(data) {
-        return findUser(data, currentUser)
-    })
-    .catch((error) => {
-        alert ("OH FUCK - YOU SHOULD PROBABLY START A RAILS SERVER");
-        console.error('Error:', error)
-    })
-
-    return ourUser
-  }
-
-  function findUser(allUsers, currentUser) {
-    return allUsers.find(user => user.name.toLowerCase() === currentUser.toLowerCase())
-  }
-
-
-
-  function showGames (gameData) {
-      console.log("this makes a ul that lists all of the user's games that you can click on to load that game")
-      
   }
