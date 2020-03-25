@@ -7,9 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const bigLogo = document.getElementById('bigLogoDiv')
 
-
-    console.log(newPlayer)
-    console.log("hi")
     
     newPlayer.addEventListener("click", function() {
         event.preventDefault()
@@ -17,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
         contentBox.className = "contentbox"
         const newUserForm = document.getElementById('newUserForm')
         bigLogo.hidden = true
+        oldUserForm.hidden = true
+        newUserForm.hidden = false
         newUserForm.addEventListener('submit', function(event){
             event.preventDefault()
 
@@ -28,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
             signOut.hidden = false
             newGame.hidden = false
             oldGame.hidden = false
+            newUserForm.hidden = true
+            bigLogo.hidden = false
         })
         createUser()
     })
@@ -35,8 +36,37 @@ document.addEventListener("DOMContentLoaded", function() {
     oldPlayer.addEventListener("click", function(event) {
         event.preventDefault()
         const contentBox = document.getElementById('bigbox')
+        const oldUserForm = document.getElementById('oldUserForm')
         contentBox.className = "contentbox"
+        bigLogo.hidden = true
+        newUserForm.hidden = true
+        oldUserForm.hidden = false
+        oldUserForm.addEventListener('submit', function(event){
+            event.preventDefault()
+
+            //use event attributes to find user and sign in
+            
+            contentBox.className = "hiddencontentbox"
+            newPlayer.hidden = true
+            oldPlayer.hidden = true
+            signOut.hidden = false
+            newGame.hidden = false
+            oldGame.hidden = false
+            newUserForm.hidden = true
+            bigLogo.hidden = false
+        })
         findUser(event)
+    })
+    signOut.addEventListener('click', function(event){
+        event.preventDefault()
+
+        newPlayer.hidden = false
+        oldPlayer.hidden = false
+        signOut.hidden = true
+        newGame.hidden = true
+        oldGame.hidden = true
+        newUserForm.hidden = true
+        bigLogo.hidden = false
     })
   })
   
