@@ -12,16 +12,16 @@ document.addEventListener("DOMContentLoaded", function() {
     
     newPlayer.addEventListener("click", function() {
         event.preventDefault()
+
         const contentBox = document.getElementById('bigbox')
         contentBox.className = "contentbox"
         const newUserForm = document.getElementById('newUserForm')
         bigLogo.hidden = true
         oldUserForm.hidden = true
         newUserForm.hidden = false
+
         newUserForm.addEventListener('submit', function(event){
             event.preventDefault()
-
-            //use event attributes to create new user
             
             contentBox.className = "hiddencontentbox"
             newPlayer.hidden = true
@@ -31,24 +31,24 @@ document.addEventListener("DOMContentLoaded", function() {
             oldGame.hidden = false
             newUserForm.hidden = true
             bigLogo.hidden = false
+          
+            createUser(event)
         })
-        createUser()
     })
   
     oldPlayer.addEventListener("click", function(event) {
         event.preventDefault()
-        getUsers(event)
+        
         const contentBox = document.getElementById('bigbox')
         const oldUserForm = document.getElementById('oldUserForm')
         contentBox.className = "contentbox"
         bigLogo.hidden = true
         newUserForm.hidden = true
         oldUserForm.hidden = false
+
         oldUserForm.addEventListener('submit', function(event){
             event.preventDefault()
-
-            //use event attributes to find user and sign in
-            
+            const thisUser = getUsers(event.target.username.value)
             contentBox.className = "hiddencontentbox"
             newPlayer.hidden = true
             oldPlayer.hidden = true
@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function() {
             newUserForm.hidden = true
             bigLogo.hidden = false
         })
-        findUser(event)
     })
+
     signOut.addEventListener('click', function(event){
         event.preventDefault()
 
@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", function() {
     })
   })
   
-  function createUser () {
-    newUser = {name: "Testy McTesterson"}
-    console.log("You're making a new player! Huzzah!")
+  function createUser (event) {
+    newUser = {name: `${event.target.newUserName.value}`}
+
     fetch(usersURL, {
         method: "POST",
         headers: {
@@ -91,32 +91,36 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(function(data) {
         console.log(data)
-        debugger;
     })
     .catch((error) => {
-        alert ("OH FUCK");
+        alert ("OH FUCK - TRY STARTING A RAILS SERVER");
         console.error('Error:', error)
     })
   }
 
-  function getUsers (userId) {
-    console.log(userId)
-    console.log("You're finding old games!")
-    //need to see what info we get back and set a variable to user_id
-    fetch(usersURL)
+  function getUsers (currentUser) {
+    const ourUser = fetch(usersURL)
     .then(function(response) {
         return response.json()
     })
     .then(function(data) {
-        console.log(data)
+        return findUser(data, currentUser)
     })
     .catch((error) => {
-        alert ("OH FUCK");
+        alert ("OH FUCK - YOU SHOULD PROBABLY START A RAILS SERVER");
         console.error('Error:', error)
     })
+
+    return ourUser
   }
+
+  function findUser(allUsers, currentUser) {
+    return allUsers.find(user => user.name.toLowerCase() === currentUser.toLowerCase())
+  }
+
+
 
   function showGames (gameData) {
       console.log("this makes a ul that lists all of the user's games that you can click on to load that game")
-      console.log
+      
   }
