@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const newGame = document.getElementById('newGameButton')
     const oldGame = document.getElementById('oldGameButton')
 
+    const sideNav = document.getElementById('sidenav')
+        const sideNavLevel = document.getElementById('sidenavlevel')
+        const sideNavLibrary = document.getElementById('sidenavlibrary')
+        const sideNavMoney = document.getElementById('sidenavmoney')
+
     const bigLogo = document.getElementById('bigLogoDiv')
 
     
@@ -70,6 +75,9 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault()
         const contentBox = document.getElementById('bigbox')
         contentBox.className = "hiddencontentbox"
+        const map = document.getElementById('maparea')
+        map.hidden = true
+        sideNav.hidden = true
         thisGame = null
         thisUser = null
         userGames = null
@@ -90,11 +98,14 @@ document.addEventListener("DOMContentLoaded", function() {
         bigLogo.hidden = true
         contentBox.className = "contentbox"
         map.hidden = false
+        sideNav.hidden = false
+
     })
 
     oldGame.addEventListener('click', function(event){
         event.preventDefault()
         const contentBox = document.getElementById('bigbox')
+        sideNav.hidden = true
         bigLogo.hidden = true
         contentBox.className = "contentbox"
         const map = document.getElementById('maparea')
@@ -109,8 +120,11 @@ document.addEventListener("DOMContentLoaded", function() {
             oldGameInput.addEventListener('click', function(event){
                 event.preventDefault()
                 // start game
+                // thisGame = 
                 oldGamesForm.hidden = true
                 map.hidden = false
+                sideNav.hidden = false
+
                 
             })
         })
