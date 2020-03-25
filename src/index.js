@@ -100,20 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const map = document.getElementById('maparea')
         map.hidden = true
         const oldGamesForm = document.getElementById('oldGamesForm')
-        const games = showGames(gameData) 
-        games.forEach(function(game){
-            const oldGameInput = document.createElement('input')
-            oldGameInput.type = "button"
-            oldGameInput.textContent = `Level ${game.level} - $${game.money} - ${game.created_at}`
-            oldGamesForm.appendChild(oldGameInput)
-            oldGameInput.addEventListener('click', function(event){
-                event.preventDefault()
-                // start game
-                oldGamesForm.hidden = true
-                map.hidden = false
-                
-            })
-        })
+        showGames()
     })
   })
   
@@ -153,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .catch((error) => {
         console.error('Error:', error)
-
         alert ("OH FUCK - YOU SHOULD PROBABLY START A RAILS SERVER");
     })
 
@@ -166,8 +152,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
   function showGames () {
-      console.log("this makes a ul that lists all of the user's games that you can click on to load that game")
-
       const ourGames = fetch(gamesURL)
       .then(function(response) {
           return response.json()
