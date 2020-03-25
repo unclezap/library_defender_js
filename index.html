@@ -19,9 +19,15 @@
         <img class="biglogo" src="src/images/skullonbooks.png">
     </div>
     <div id="bigbox" class="hiddencontentbox">
-        <form id="newUserForm" class="form">
+        <form hidden id="newUserForm" class="form">
             <p class="formtitle">Create a New User</p>
             <input class="formInputBox" type="text" placeholder="Username" name="newUserName">
+            <input class="formsubmit" type="submit">
+        </form>
+
+        <form hidden id="oldUserForm" class="form">
+            <p class="formtitle">Sign in</p>
+            <input class="formInputBox" type="text" placeholder="Username" name="username">
             <input class="formsubmit" type="submit">
         </form>
     </div>
