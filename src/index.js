@@ -320,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function() {
       sideNavLibrary.innerText = `Books: ${currentHealth}`
       sideNavMoney.innerText = `Money: $${currentMoney}`
     }
-//problem with sign-in/sign-out
 
 
 
