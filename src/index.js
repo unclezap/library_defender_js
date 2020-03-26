@@ -286,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function playGame() {
       levelFetch()
       alert ("Your library is under attack!")
+
   }
   
   function levelFetch() {
@@ -386,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function kidsAttack() {
         clearInterval(repeat)
-        repeat = setInterval(dealDamage, 200)
+        repeat = setInterval(dealDamage, 10)
     }
 
     function dealDamage() {
@@ -400,8 +401,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (currentHealth <= 0) {
+            sideNavLibrary.innerText = `Books: 0 `
             clearInterval(repeat)
-            sideNavLibrary.innerText = `Books: ${currentHealth}    `
             alert ("The Library is out of books!  Illiteracy has befallen the populace!")
             alert("You lose!")
             //fetch to update game file in ruby
