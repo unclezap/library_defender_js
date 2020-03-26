@@ -112,3 +112,44 @@
     font-size: 16px;
     border: 2px white;
 }
+.sidebarimg {
+    width: 75px;
+    position: relative;
+    left: -1px;
+    height: auto;
+}
+.sidebarimg2 {
+    width: 60px;
+    position: relative;
+    left: 9px;
+    height: auto;
+}
+.sidebarimg3 {
+    width: 93px;
+    position: relative;
+    left: -9px;
+    height: auto;
+}
+.sidebarimgdiv{
+    display: flex;
+}
+.clear {
+    clear: both;
+}
+.defenderbutton {
+    height: 20px;
+    width: auto;
+    margin-top: 25px;
+}
+.defenderbutton1 {
+    height: 20px;
+    width: auto;
+    margin-top: 25px;
+    margin-left: 18px;
+}
+.defenderbutton2 {
+    height: 20px;
+    width: auto;
+    margin-top: 25px;
+    margin-left: 33px;
+}
