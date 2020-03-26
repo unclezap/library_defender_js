@@ -19,6 +19,9 @@ const oldGame = document.getElementById('oldGameButton')
 
 const bigLogo = document.getElementById('bigLogoDiv')
 
+const map = document.getElementById('maparea')
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -93,7 +96,8 @@ document.addEventListener("DOMContentLoaded", function() {
     newGame.addEventListener('click', function(event){
         event.preventDefault()
         createGame()
-        const map = document.getElementById('maparea')
+        //going to move map to the outside so it can be used in gameplay
+        // const map = document.getElementById('maparea')
         const contentBox = document.getElementById('bigbox')
         bigLogo.hidden = true
         contentBox.className = "contentbox"
@@ -275,9 +279,13 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentHealth;
   let currentMoney;
   let currentMonsters;
+
+  const kids = document.getElementsByClassName("Loud")
+
   
   function playGame() {
       levelFetch()
+      alert ("Your library is under attack!")
   }
   
   function levelFetch() {
@@ -308,6 +316,7 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(function(data) {
         currentMonsters = data.monsters
+        monstersAttack()
     })  
     .catch((error) => {
         console.error('Error', error)
@@ -321,5 +330,56 @@ document.addEventListener("DOMContentLoaded", function() {
       sideNavMoney.innerText = `Money: $${currentMoney}`
     }
 
+    function monstersAttack() {
+        console.log(currentMonsters)
+        let y = 345
+        currentMonsters.forEach((monster) => {
+            y = y + 40
+            const monsterImg = document.createElement('img')
+            // debugger;
+            switch (monster.monster_name) {
+                case "Loud Child":
+                    monsterImg.src = './src/images/monster1.gif';
+                    break;
+                case "Monkey":
+                    monsterImg.src = './src/images/'
+                    break;
+                case "Music":
+                    monsterImg.src = './src/images/monster3.png'
+                case "Drink Cup":
+                    monsterImg.src = './src/images/monster4.png'
+            }
+            monsterImg.style=`position:absolute; left: 1150; top: ${y}; width: 100; height: 100;`
+            monsterImg.className = `${monster.monster_name}`
 
+            const imgDiv = document.createElement('div')
+            imgDiv.id = `${monster.id}`
+            imgDiv.appendChild(monsterImg)
 
+            map.appendChild(imgDiv)
+        })
+        moveLoudChildren()
+    }
+
+    var count, repeat, i
+
+    function moveLoudChildren() {
+        debugger;
+        clearInterval(repeat)
+        repeat = setInterval(changeY, 20)
+  }
+
+    function changeY() {
+        let x
+        i = 0
+        while (i < kids.length) {
+            let xPos = kids[i].style.left.replace('px','')
+            x = parseInt(xPos, 10)
+            kids[i].style.left = `${x - 1}px`
+            i++
+        }
+            
+        if (x < 300) {
+            clearInterval(repeat)
+        }
+    } 
