@@ -254,8 +254,6 @@ document.addEventListener("DOMContentLoaded", function() {
   function playGame() {
       levelFetch()
     //   libraryFetch()
-      // console.log("it's playing")
-      // debugger;
   }
   
   function levelFetch() {
@@ -266,9 +264,8 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(function(data) {
         thisLevel = data.levels.find(level => 
             level.level_number === thisGame.current_level
-        )
-        debugger;
-        fetchMonsters(thisLevel)
+        )        
+        fetchMonsters(data)
     })
     .catch((error) => {
         console.error('Error:', error)
@@ -276,13 +273,21 @@ document.addEventListener("DOMContentLoaded", function() {
     })
   }
   
-  function fetchMonsters(thisLevel) {
-      debugger;
-      
+  function fetchMonsters(data) {
+    fetch(`${levelsURL}/${data.levels.find(level => level.level_number === thisGame.current_level).id}}`)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        currentMonsters = data.monsters
+        debugger;
+    })  
+    .catch((error) => {
+        console.error('Error', error)
+        alert ("A MONSTER ATE YOUR MONSTERS")
+    })      
   }
-  // fetch for level
   
-  // fetch for monsters from level
 
 
 
