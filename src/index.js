@@ -195,7 +195,9 @@ document.addEventListener("DOMContentLoaded", function() {
             // import { test } from './gamePlay.js';   
             // let val = test();  // val is "Hello"
             // val
-            debugger;
+            playGame()
+
+            // debugger;
             // test()
             // const gamePlayModule = require('./gamePlay')
             // gamePlayModule.test()
@@ -225,10 +227,65 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(function(data) {
         thisGame = data
+        playGame()
     })
     .catch((error) => {
-        alert ("OH FUCK - TRY STARTING A RAILS SERVER");
         console.error('Error:', error)
+        alert ("OH FUCK - TRY STARTING A RAILS SERVER");
     })
 
   }
+
+
+  //=============================================
+  //GamePlay Stuff
+  //============================================
+
+//   const usersURL = 'http://localhost:3000/users'
+//   const gamesURL = 'http://localhost:3000/games'
+  const levelsURL = 'http://localhost:3000/levels'
+  const librariesURL = 'http://localhost:3000/levels'
+  
+  let currentLevel;
+  let currentHealth;
+  let currentMoney;
+  let thisLibrary;
+  
+  function playGame() {
+      levelFetch()
+    //   libraryFetch()
+      // console.log("it's playing")
+      // debugger;
+  }
+  
+  function levelFetch() {
+    fetch(`${gamesURL}/${thisGame.id}`)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        thisLevel = data.levels.sort(function(firstLevel, secondLevel) {
+            if (firstLevel.level_number > secondLevel.level_number) {
+                return firstLevel
+            } else {return secondLevel}
+        }).pop() 
+        debugger;
+        fetchMonsters(thisLevel)
+    })
+    .catch((error) => {
+        console.error('Error:', error)
+        alert ("NO LEVEL FOR YOU")
+    })
+  }
+  
+  function fetchMonsters(thisLevel) {
+      debugger;
+      
+  }
+  // fetch for level
+  
+  // fetch for monsters from level
+
+
+
+
