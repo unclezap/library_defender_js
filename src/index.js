@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         oldUserForm.addEventListener('submit', function(event){
             event.preventDefault()
             getUsers(event.target.username.value)
+            // moved all the navigation bar hidden true/false things to the fetch in case the user doesn't exist
             contentBox.className = "hiddencontentbox"
             newPlayer.hidden = true
             oldPlayer.hidden = true
@@ -129,6 +130,8 @@ document.addEventListener("DOMContentLoaded", function() {
     oldGame.hidden = true
     newUserForm.hidden = true
     bigLogo.hidden = false
+    //this vvv removes a bug where when you signed out all the old games remained attached and clickable to the oldGamesForm
+    oldGamesForm.innerHTML = ""
 }
 
   function createUser (event) {
