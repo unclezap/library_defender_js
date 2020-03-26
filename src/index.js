@@ -6,10 +6,6 @@ let userGames;
 
 //moved these out here so I can call userGone in functions outside of the domcontentloaded event
 //also useful for the playGame functionality
-const sideNav = document.getElementById('sidenav')
-const sideNavLevel = document.getElementById('sidenavlevel')
-const sideNavLibrary = document.getElementById('sidenavlibrary')
-const sideNavMoney = document.getElementById('sidenavmoney')
 
 const newPlayer = document.getElementById("createAccountButton")
 const oldPlayer = document.getElementById("signInButton")
@@ -21,6 +17,15 @@ const bigLogo = document.getElementById('bigLogoDiv')
 
 const map = document.getElementById('maparea')
 
+    const noGames = document.createElement('p')
+    noGames.id = "noGamesMessage"
+    noGames.textContent = "You have no saved games"
+    noGames.className = "formtitle"
+
+    const sideNav = document.getElementById('sidenav')
+    const sideNavLevel = document.getElementById('sidenavlevel')
+    const sideNavLibrary = document.getElementById('sidenavlibrary')
+    const sideNavMoney = document.getElementById('sidenavmoney')
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -36,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         bigLogo.hidden = true
         oldUserForm.hidden = true
         newUserForm.hidden = false
+        noGames.hidden = true
 
         newUserForm.addEventListener('submit', function(event){
             event.preventDefault()
@@ -62,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         bigLogo.hidden = true
         newUserForm.hidden = true
         oldUserForm.hidden = false
+        noGames.hidden = true
 
         oldUserForm.addEventListener('submit', function(event){
             event.preventDefault()
@@ -103,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
         contentBox.className = "contentbox"
         map.hidden = false
         sideNav.hidden = false
+        noGames.hidden = true
 
     })
 
@@ -116,6 +124,108 @@ document.addEventListener("DOMContentLoaded", function() {
         map.hidden = true
         const oldGamesForm = document.getElementById('oldGamesForm')
         showGames()
+       
+
+        //         // we need this stuff \/
+        //         oldGamesForm.hidden = true
+        //         map.hidden = false
+        //         sideNav.hidden = false
+    })
+    // <div id= "item" class="child"> 
+    //     <img class='imginside' src="unnamed.png">
+    // </div>
+    const map = document.getElementById('maparea')
+    const librarian1button = document.getElementById('defender1button')
+    librarian1button.addEventListener('click',function(event){
+        event.preventDefault()
+        if(currentMoney >= 25){
+            currentMoney -= 25
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item1"
+            itemdiv.className = "child"
+            const itemimg = document.createElement('img')
+            itemimg.className = "imginside"
+            itemimg.setAttribute('src', "./src/images/librarian1.png")
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item1']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            }); 
+        }
+    })
+    const librarian2button = document.getElementById('defender2button')
+    librarian2button.addEventListener('click',function(event){
+        event.preventDefault()
+        if(currentMoney >= 30){
+            currentMoney -= 30
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item2"
+            itemdiv.className = "child"
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian2.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item2']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
+    })
+    const librarian3button = document.getElementById('defender3button')
+    librarian3button.addEventListener('click',function(event){
+        event.preventDefault()
+        if(currentMoney >= 40){
+            currentMoney -= 40
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item3"
+            itemdiv.className = "child"
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian3.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item3']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
+    })
+    const librarian4button = document.getElementById('defender4button')
+    librarian4button.addEventListener('click',function(event){
+        event.preventDefault()
+        if(currentMoney >= 50){
+            currentMoney -= 50
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item4"
+            itemdiv.className = "child"
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian4.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item4']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
     })
   })
 
@@ -219,25 +329,10 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault()
             console.log("clicked an old game")
             thisGame = userGames.find(possibleGame => possibleGame.id === game.id)
-
-            // import { test } from './gamePlay.js';   
-            // let val = test();  // val is "Hello"
-            // val
-            playGame()
-
-            // debugger;
-            // test()
-            // const gamePlayModule = require('./gamePlay')
-            // gamePlayModule.test()
-            // debugger;
-            // gamePlayModule.playGame(thisUser)
-            //write code that starts a game with the button
-            //also we need to add code that shows some message if there are no games for a user
-            //stuff for aidan to do
+            playGame()    
         })
     })
-
-  }
+}
 
   function createGame () {
     thisGame = fetch(gamesURL, {
@@ -279,6 +374,8 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentHealth;
   let currentMoney;
   let currentMonsters;
+  let currentDefenders = [];
+  let currentMonstersDiv = []
 
   const kids = document.getElementsByClassName("Loud")
 
@@ -336,27 +433,28 @@ document.addEventListener("DOMContentLoaded", function() {
         currentMonsters.forEach((monster) => {
             y = y + 40
             const monsterImg = document.createElement('img')
-            // debugger;
             switch (monster.monster_name) {
                 case "Loud Child":
                     monsterImg.src = './src/images/monster1.gif';
                     break;
                 case "Monkey":
-                    monsterImg.src = './src/images/'
+                    monsterImg.src = './src/images/'                  
                     break;
                 case "Music":
-                    monsterImg.src = './src/images/monster3.png'
+                    monsterImg.src = './src/images/monster3.png'                   
                 case "Drink Cup":
-                    monsterImg.src = './src/images/monster4.png'
+                    monsterImg.src = './src/images/monster4.png'                  
             }
             monsterImg.style=`position:absolute; left: 1150; top: ${y}; width: 100; height: 100;`
             monsterImg.className = `${monster.monster_name}`
 
             const imgDiv = document.createElement('div')
+            imgDiv.health = monster.health
             imgDiv.id = `${monster.id}`
             imgDiv.appendChild(monsterImg)
 
             map.appendChild(imgDiv)
+            currentMonstersDiv.push(imgDiv)
         })
         moveLoudChildren()
     }
@@ -381,6 +479,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (x < 300) {
             clearInterval(repeat)
             kidsAttack()
+        }
+        ///janky pls fix
+        if(x<500){
+            damage()
         }
     } 
 
@@ -408,3 +510,21 @@ document.addEventListener("DOMContentLoaded", function() {
             userGone()
         }
     }
+    function damage() {
+       currentDefenders.forEach(function(defender){
+           currentMonstersDiv.forEach(function(monster){
+            //    if((defender.left - monster.left < Math.abs(300)) && (defender.top - monster.top < Math.abs(300))){
+                   monster.health -= 10
+            //    }
+               if(monster.health < 1){
+                    map.removeChild(monster)
+                    let deadMonster = currentMonstersDiv.find(function(divItem){
+                        divItem.id === monster.id
+                    })
+                    let deadMonsterIndex = currentMonstersDiv.indexOf(deadMonster)
+                    currentMonsterDiv.splice(deadMonsterIndex, 1)
+               }
+           })
+       }) 
+    }
+    
