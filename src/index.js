@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
       oldGames.hidden = false
       games.forEach(function(game){
         const oldGameInput = document.createElement('button')
+        oldGameInput.className = "navbutton"
         oldGameInput.textContent = `Level ${game.current_level} - $${game.money} - ${game.created_at}`
         oldGameInput.id = game.id
         oldGamesForm.appendChild(oldGameInput)
