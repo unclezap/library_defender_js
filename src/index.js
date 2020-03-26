@@ -5,6 +5,7 @@ let thisGame;
 let userGames;
 
 //moved these out here so I can call userGone in functions outside of the domcontentloaded event
+//also useful for the playGame functionality
 const sideNav = document.getElementById('sidenav')
 const sideNavLevel = document.getElementById('sidenavlevel')
 const sideNavLibrary = document.getElementById('sidenavlibrary')
@@ -266,15 +267,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const levelsURL = 'http://localhost:3000/levels'
   const librariesURL = 'http://localhost:3000/levels'
   
-  let currentLevel;
+  let thisLevel;
+  let thisLibrary;
   let currentHealth;
   let currentMoney;
-  let thisLibrary;
   let currentMonsters;
   
   function playGame() {
       levelFetch()
-    //   libraryFetch()
   }
   
   function levelFetch() {
@@ -285,9 +285,12 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(function(data) {
         thisLevel = data.levels.find(level => 
             level.level_number === thisGame.current_level
-        )     
-        debugger;   
+        )
+        thisLibrary = data.library 
+        currentHealth = thisLibrary.health
+        currentMoney = thisGame.money
         fetchMonsters(data)
+        setSideNavValues()
     })
     .catch((error) => {
         console.error('Error:', error)
@@ -309,7 +312,12 @@ document.addEventListener("DOMContentLoaded", function() {
     })   
   }
   
-
+  function setSideNavValues() {
+      sideNavLevel.innerText = `Level: ${thisGame.current_level}`
+      sideNavLibrary.innerText = `Books: ${currentHealth}`
+      sideNavMoney.innerText = `Money: $${currentMoney}`
+    }
+//problem with sign-in/sign-out
 
 
 
