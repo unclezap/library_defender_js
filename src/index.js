@@ -148,8 +148,9 @@ document.addEventListener("DOMContentLoaded", function() {
             itemimg.className = "imginside"
             itemimg.setAttribute('src', "./src/images/librarian1.png")
             itemdiv.appendChild(itemimg)
-            map.appendChild(itemdiv)
             currentDefenders.push(itemdiv)
+
+            map.appendChild(itemdiv)
             $(function () {
                 $("div[id='item1']").draggable({
                     containment: "#con",
@@ -384,6 +385,13 @@ document.addEventListener("DOMContentLoaded", function() {
       levelFetch()
       alert ("Your library is under attack!")
 
+      function attackRepeater() {
+        clearInterval(repeat)
+        repeat = setInterval(damage, 1000)
+  }
+
+
+
   }
   
   function levelFetch() {
@@ -450,12 +458,12 @@ document.addEventListener("DOMContentLoaded", function() {
             monsterImg.className = `${monster.monster_name}`
 
             const imgDiv = document.createElement('div')
-            imgDiv.health = monster.health
+            monsterImg.health = monster.health
             imgDiv.id = `${monster.id}`
             imgDiv.appendChild(monsterImg)
 
             map.appendChild(imgDiv)
-            currentMonstersDiv.push(imgDiv)
+            currentMonstersDiv.push(monsterImg)
         })
         moveLoudChildren()
     }
@@ -474,6 +482,8 @@ document.addEventListener("DOMContentLoaded", function() {
             let xPos = kids[i].style.left.replace('px','')
             x = parseInt(xPos, 10)
             kids[i].style.left = `${x - 1}px`
+            damage()
+
             i++
         }
             
@@ -482,9 +492,8 @@ document.addEventListener("DOMContentLoaded", function() {
             kidsAttack()
         }
         ///janky pls fix
-        if(x<500){
-            damage()
-        }
+        // if(x<500){
+        // }
     } 
 
     function kidsAttack() {
@@ -505,26 +514,45 @@ document.addEventListener("DOMContentLoaded", function() {
         if (currentHealth <= 0) {
             sideNavLibrary.innerText = `Books: 0 `
             clearInterval(repeat)
-            alert ("The Library is out of books!  Illiteracy has befallen the populace!")
-            alert("You lose!")
+            // alert ("The Library is out of books!  Illiteracy has befallen the populace!")
+            // alert("You lose!")
             //fetch to update game file in ruby
-            userGone()
+            // userGone()
             // nextLevel()
         }
     }
     function damage() {
        currentDefenders.forEach(function(defender){
+        // debugger;
+
+        //    console.log(`inside currentDefender ${defender}`)
            currentMonstersDiv.forEach(function(monster){
-            //    if((defender.left - monster.left < Math.abs(300)) && (defender.top - monster.top < Math.abs(300))){
-                   monster.health -= 10
-            //    }
+            //    console.log(`inside monsters ${defender}`)
+            // console.log(`Defender Left ${defender.offsetLeft}`)
+            // console.log(`Monster Left ${monster.offsetLeft}`)
+            // console.log(`Defender Top ${defender.offsetTop}`)
+            // console.log(`Monster Top ${monster.offsetTop}`)
+               if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
+                   monster.health -= 1
+                //    debugger;
+                console.log(`Defender Left ${defender.offsetLeft}`)
+            console.log(`Monster Left ${monster.offsetLeft}`)
+            console.log(`Defender Top ${defender.offsetTop}`)
+            console.log(`Monster Top ${monster.offsetTop}`)
+                console.log("hit!")
+                console.log(monster.health)
+               }
                if(monster.health < 1){
-                    map.removeChild(monster)
                     let deadMonster = currentMonstersDiv.find(function(divItem){
-                        divItem.id === monster.id
+                        return divItem.id === monster.id
                     })
                     let deadMonsterIndex = currentMonstersDiv.indexOf(deadMonster)
-                    currentMonsterDiv.splice(deadMonsterIndex, 1)
+                    currentMonstersDiv = currentMonstersDiv.filter ((item) => {
+                        return currentMonstersDiv.indexOf(item) !== deadMonsterIndex
+                    })
+                    monster.parentElement.removeChild(monster)
+
+                    // console.log(currentMonstersDiv)
                }
            })
        }) 
