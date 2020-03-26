@@ -407,5 +407,11 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("You lose!")
             //fetch to update game file in ruby
             userGone()
+            nextLevel()
         }
+    }
+
+    function nextLevel() {
+        fetch(levelsURL)
+        .
     }
