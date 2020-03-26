@@ -4,19 +4,23 @@ let thisUser;
 let thisGame;
 let userGames;
 
+//moved these out here so I can call userGone in functions outside of the domcontentloaded event
+const sideNav = document.getElementById('sidenav')
+const sideNavLevel = document.getElementById('sidenavlevel')
+const sideNavLibrary = document.getElementById('sidenavlibrary')
+const sideNavMoney = document.getElementById('sidenavmoney')
+
+const newPlayer = document.getElementById("createAccountButton")
+const oldPlayer = document.getElementById("signInButton")
+const signOut = document.getElementById('signOutButton')
+const newGame = document.getElementById('newGameButton')
+const oldGame = document.getElementById('oldGameButton')
+
+const bigLogo = document.getElementById('bigLogoDiv')
+
+
 document.addEventListener("DOMContentLoaded", function() {
-    const newPlayer = document.getElementById("createAccountButton")
-    const oldPlayer = document.getElementById("signInButton")
-    const signOut = document.getElementById('signOutButton')
-    const newGame = document.getElementById('newGameButton')
-    const oldGame = document.getElementById('oldGameButton')
 
-    const sideNav = document.getElementById('sidenav')
-        const sideNavLevel = document.getElementById('sidenavlevel')
-        const sideNavLibrary = document.getElementById('sidenavlibrary')
-        const sideNavMoney = document.getElementById('sidenavmoney')
-
-    const bigLogo = document.getElementById('bigLogoDiv')
 
     
     newPlayer.addEventListener("click", function() {
@@ -73,22 +77,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     signOut.addEventListener('click', function(event){
         event.preventDefault()
-        const contentBox = document.getElementById('bigbox')
-        contentBox.className = "hiddencontentbox"
-        const map = document.getElementById('maparea')
-        map.hidden = true
-        sideNav.hidden = true
+        //moved this code to a function so I can use it when the user tries to sign in but we can't find their record/it doesn't exist
+        //exists further down because it's not an event listener
         thisGame = null
         thisUser = null
         userGames = null
-        newPlayer.hidden = false
-        oldPlayer.hidden = false
-        signOut.hidden = true
-        newGame.hidden = true
-        oldGame.hidden = true
-        newUserForm.hidden = true
-        bigLogo.hidden = false
+        
+        userGone()
     })
+
+
 
     newGame.addEventListener('click', function(event){
         event.preventDefault()
@@ -114,7 +112,24 @@ document.addEventListener("DOMContentLoaded", function() {
         showGames()
     })
   })
-  
+
+  //^^^ the }) up above represents the end of the domcontentloaded event listener
+  function userGone () {
+    const contentBox = document.getElementById('bigbox')
+    contentBox.className = "hiddencontentbox"
+    const map = document.getElementById('maparea')
+    map.hidden = true
+    sideNav.hidden = true
+    //where the thisUser = null etc. used to be
+    newPlayer.hidden = false
+    oldPlayer.hidden = false
+    signOut.hidden = true
+    newGame.hidden = true
+    oldGame.hidden = true
+    newUserForm.hidden = true
+    bigLogo.hidden = false
+}
+
   function createUser (event) {
     newUser = {name: `${event.target.newUserName.value}`}
 
@@ -158,6 +173,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function findUser(allUsers, currentUser) {
     thisUser = allUsers.find(user => user.name.toLowerCase() === currentUser.toLowerCase())
+    if (thisUser === undefined) {
+        alert ("Sorry, you don't have any games")
+        userGone()
+    }
   }
 
 
@@ -250,6 +269,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentHealth;
   let currentMoney;
   let thisLibrary;
+  let currentMonsters;
   
   function playGame() {
       levelFetch()
@@ -264,7 +284,8 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(function(data) {
         thisLevel = data.levels.find(level => 
             level.level_number === thisGame.current_level
-        )        
+        )     
+        debugger;   
         fetchMonsters(data)
     })
     .catch((error) => {
@@ -280,12 +301,11 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(function(data) {
         currentMonsters = data.monsters
-        debugger;
     })  
     .catch((error) => {
         console.error('Error', error)
         alert ("A MONSTER ATE YOUR MONSTERS")
-    })      
+    })   
   }
   
 
