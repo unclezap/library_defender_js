@@ -264,11 +264,9 @@ document.addEventListener("DOMContentLoaded", function() {
         return response.json()
     })
     .then(function(data) {
-        thisLevel = data.levels.sort(function(firstLevel, secondLevel) {
-            if (firstLevel.level_number > secondLevel.level_number) {
-                return firstLevel
-            } else {return secondLevel}
-        }).pop() 
+        thisLevel = data.levels.find(level => 
+            level.level_number === thisGame.current_level
+        )
         debugger;
         fetchMonsters(thisLevel)
     })
