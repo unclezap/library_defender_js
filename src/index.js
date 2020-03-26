@@ -179,14 +179,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function makeButtons(allGames) {
       const games = allGames.filter(game => game.user_id === thisUser.id)
+      const userGames = games
       const oldGames = document.getElementById("oldGameDiv")
       oldGames.hidden = false
       games.forEach(function(game){
         const oldGameInput = document.createElement('button')
         oldGameInput.textContent = `Level ${game.current_level} - $${game.money} - ${game.created_at}`
+        oldGameInput.id = game.id
         oldGamesForm.appendChild(oldGameInput)
         oldGameInput.addEventListener('click', function(event){
             event.preventDefault()
+            console.log("clicked an old game")
+            thisGame = userGames.find(possibleGame => possibleGame.id === game.id)
+
+            // import { test } from './gamePlay.js';   
+            // let val = test();  // val is "Hello"
+            // val
+            debugger;
+            // test()
+            // const gamePlayModule = require('./gamePlay')
+            // gamePlayModule.test()
+            // debugger;
+            // gamePlayModule.playGame(thisUser)
             //write code that starts a game with the button
             //also we need to add code that shows some message if there are no games for a user
             //stuff for aidan to do
