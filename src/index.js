@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function() {
         while (i < kids.length) {
             let xPos = kids[i].style.left.replace('px','')
             x = parseInt(xPos, 10)
-            kids[i].style.left = `${x - 5}px`
+            kids[i].style.left = `${x - 1}px`
             i++
         }
             
