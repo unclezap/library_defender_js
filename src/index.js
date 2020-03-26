@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
   function setSideNavValues() {
       sideNavLevel.innerText = `Level: ${thisGame.current_level}`
-      sideNavLibrary.innerText = `Books: ${currentHealth}`
+      sideNavLibrary.innerText = `Books: ${currentHealth}    `
       sideNavMoney.innerText = `Money: $${currentMoney}`
     }
 
@@ -364,7 +364,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var count, repeat, i
 
     function moveLoudChildren() {
-        debugger;
         clearInterval(repeat)
         repeat = setInterval(changeY, 20)
   }
@@ -375,11 +374,37 @@ document.addEventListener("DOMContentLoaded", function() {
         while (i < kids.length) {
             let xPos = kids[i].style.left.replace('px','')
             x = parseInt(xPos, 10)
-            kids[i].style.left = `${x - 1}px`
+            kids[i].style.left = `${x - 5}px`
             i++
         }
             
         if (x < 300) {
             clearInterval(repeat)
+            kidsAttack()
         }
     } 
+
+    function kidsAttack() {
+        clearInterval(repeat)
+        repeat = setInterval(dealDamage, 200)
+    }
+
+    function dealDamage() {
+        i = 0
+        while (i < kids.length) {
+            let kidId = kids[i].parentElement.id
+            let monster = currentMonsters.find(monster => monster.id = kidId)
+            currentHealth -= monster.attack_damage
+            sideNavLibrary.innerText = `Books: ${currentHealth}    `
+            i++
+        }
+
+        if (currentHealth <= 0) {
+            clearInterval(repeat)
+            sideNavLibrary.innerText = `Books: ${currentHealth}    `
+            alert ("The Library is out of books!  Illiteracy has befallen the populace!")
+            alert("You lose!")
+            //fetch to update game file in ruby
+            userGone()
+        }
+    }
