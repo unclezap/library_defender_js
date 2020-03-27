@@ -321,7 +321,6 @@ function makeLibrarianButtons(allLibrarians) {
         event.preventDefault()
         let lib2 = allLibrarians.librarian2
         if(currentMoney >= lib2.cost){
-            // debugger;
             currentMoney -= lib2.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
@@ -381,13 +380,13 @@ function makeLibrarianButtons(allLibrarians) {
     librarian4button.addEventListener('click',function(event){
         event.preventDefault()
         let lib4 = allLibrarians.librarian4
+        debugger;
         if(currentMoney >= lib4.cost){
-            currentMoney -= lilb4.cost
+            currentMoney -= lib4.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
             itemdiv.id = "item4"
             itemdiv.className = "child"
-            // item.attack = lib4.attack_damage
             const itemP = document.createElement('p')
             itemP.hidden = true
             itemP.innerText = `${lib4.attack_damage}`
@@ -559,7 +558,7 @@ function makeLibrarianButtons(allLibrarians) {
         while (i < kids.length) {
             let kidId = kids[i].parentElement.id
             let monster = currentMonsters.find(monster => monster.id = kidId)
-            currentHealth -= monster.attack_damage
+            // currentHealth -= monster.attack_damage
             sideNavLibrary.innerText = `Books: ${currentHealth}    `
             i++
         }
@@ -567,29 +566,20 @@ function makeLibrarianButtons(allLibrarians) {
         if (currentHealth <= 0) {
             sideNavLibrary.innerText = `Books: 0 `
             clearInterval(repeat)
-            // alert ("The Library is out of books!  Illiteracy has befallen the populace!")
-            // alert("You lose!")
+            alert ("The Library is out of books!  Illiteracy has befallen the populace!")
+            alert("You lose!")
             //fetch to update game file in ruby
-            // userGone()
+            userGone()
             // nextLevel()
         }
     }
     function damage() {
        currentDefenders.forEach(function(defender){
-        // debugger;
-
-        //    console.log(`inside currentDefender ${defender}`)
            currentMonstersDiv.forEach(function(monster){
-            //    console.log(`inside monsters ${defender}`)
-            // console.log(`Defender Left ${defender.offsetLeft}`)
-            // console.log(`Monster Left ${monster.offsetLeft}`)
-            // console.log(`Defender Top ${defender.offsetTop}`)
-            // console.log(`Monster Top ${monster.offsetTop}`)
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
                    console
                 let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
                 monster.health -= defenderDamage
-                // debugger;
                 console.log(`Defender Left ${defender.offsetLeft}`)
             console.log(`Monster Left ${monster.offsetLeft}`)
             console.log(`Defender Top ${defender.offsetTop}`)
