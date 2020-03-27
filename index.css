@@ -228,3 +228,6 @@
     position: relative;
     animation: mymove 30s ;
 }
+#invertedMonster {
+    filter: invert(100%);
+}

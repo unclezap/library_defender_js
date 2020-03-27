@@ -30,6 +30,7 @@ const map = document.getElementById('maparea')
 
 document.addEventListener("DOMContentLoaded", function() {
 
+    getAllLibrarians()
 
     
     newPlayer.addEventListener("click", function() {
@@ -138,12 +139,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const librarian1button = document.getElementById('defender1button')
     librarian1button.addEventListener('click',function(event){
         event.preventDefault()
-        if(currentMoney >= 25){
-            currentMoney -= 25
+        let lib1 = allLibrarians.librarian1
+        if(currentMoney >= lib1.cost){
+            currentMoney -= lib1.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
             itemdiv.id = "item1"
             itemdiv.className = "child"
+            item.attack = lib1.attack_damage
+            debugger;
             const itemimg = document.createElement('img')
             itemimg.className = "imginside"
             itemimg.setAttribute('src', "./src/images/librarian1.png")
@@ -162,12 +166,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const librarian2button = document.getElementById('defender2button')
     librarian2button.addEventListener('click',function(event){
         event.preventDefault()
-        if(currentMoney >= 30){
-            currentMoney -= 30
+        let lib2 = allLibrarians.librarian2
+        if(currentMoney >= lib2.cost){
+            debugger;
+            currentMoney -= lib2.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
             itemdiv.id = "item2"
             itemdiv.className = "child"
+            item.attack = lib2.attack_damage
             const itemimg = document.createElement('img')
             itemimg.setAttribute('src', "./src/images/librarian2.png")
             itemimg.className = "imginside"
@@ -185,12 +192,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const librarian3button = document.getElementById('defender3button')
     librarian3button.addEventListener('click',function(event){
         event.preventDefault()
-        if(currentMoney >= 40){
-            currentMoney -= 40
+        let lib3 = allLibrarians.librarian3
+        if(currentMoney >= lib3.cost){
+            currentMoney -= lib3.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
             itemdiv.id = "item3"
             itemdiv.className = "child"
+            item.attack = lib3.attack_damage
             const itemimg = document.createElement('img')
             itemimg.setAttribute('src', "./src/images/librarian3.png")
             itemimg.className = "imginside"
@@ -208,12 +217,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const librarian4button = document.getElementById('defender4button')
     librarian4button.addEventListener('click',function(event){
         event.preventDefault()
-        if(currentMoney >= 50){
-            currentMoney -= 50
+        let lib4 = allLibrarians.librarian4
+        if(currentMoney >= lib4.cost){
+            currentMoney -= lilb4.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
             const itemdiv = document.createElement('div')
             itemdiv.id = "item4"
             itemdiv.className = "child"
+            item.attack = lib4.attack_damage
             const itemimg = document.createElement('img')
             itemimg.setAttribute('src', "./src/images/librarian4.png")
             itemimg.className = "imginside"
@@ -360,6 +371,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
   }
 
+  function getAllLibrarians() {
+    fetch(librariansURL)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(data) {
+        console.log(data)
+        allLibrarians = data
+    })
+    .catch((error) => {
+        console.error('Error:', error)
+        alert ("THE LIBRARIANS ARE ON A BREAK");
+    })
+
+}
+
 
   //=============================================
   //GamePlay Stuff
@@ -369,6 +396,7 @@ document.addEventListener("DOMContentLoaded", function() {
 //   const gamesURL = 'http://localhost:3000/games'
   const levelsURL = 'http://localhost:3000/levels'
   const librariesURL = 'http://localhost:3000/levels'
+  const librariansURL = 'http://localhost:3000/defenders'
   
   let thisLevel;
   let thisLibrary;
@@ -377,6 +405,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let currentMonsters;
   let currentDefenders = [];
   let currentMonstersDiv = []
+  let allLibrarians;
 
   const kids = document.getElementsByClassName("Loud")
 
@@ -385,10 +414,10 @@ document.addEventListener("DOMContentLoaded", function() {
       levelFetch()
       alert ("Your library is under attack!")
 
-      function attackRepeater() {
-        clearInterval(repeat)
-        repeat = setInterval(damage, 1000)
-  }
+//       function attackRepeater() {
+//         clearInterval(repeat)
+//         repeat = setInterval(damage, 1000)
+//   }
 
 
 
@@ -455,8 +484,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     monsterImg.src = './src/images/monster4.png'                  
             }
             monsterImg.style=`position:absolute; left: 1150; top: ${y}; width: 100; height: 100;`
-            monsterImg.className = `${monster.monster_name}`
-
+            // monsterImg.className = `${monster.monster_name}`
+            monsterImg.className = monster.monster_name
             const imgDiv = document.createElement('div')
             monsterImg.health = monster.health
             imgDiv.id = `${monster.id}`
@@ -483,7 +512,6 @@ document.addEventListener("DOMContentLoaded", function() {
             x = parseInt(xPos, 10)
             kids[i].style.left = `${x - 1}px`
             damage()
-
             i++
         }
             
@@ -533,12 +561,13 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log(`Defender Top ${defender.offsetTop}`)
             // console.log(`Monster Top ${monster.offsetTop}`)
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
-                   monster.health -= 1
-                //    debugger;
+  o
+                monster.health -= defender.attack
                 console.log(`Defender Left ${defender.offsetLeft}`)
             console.log(`Monster Left ${monster.offsetLeft}`)
             console.log(`Defender Top ${defender.offsetTop}`)
             console.log(`Monster Top ${monster.offsetTop}`)
+            console.log
                 console.log("hit!")
                 console.log(monster.health)
                }
