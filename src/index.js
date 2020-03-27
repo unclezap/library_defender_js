@@ -422,7 +422,7 @@ function makeLibrarianButtons(allLibrarians) {
   let currentMonstersDiv = []
   let allLibrarians;
 
-  const kids = document.getElementsByClassName("Loud")
+  const kids = document.querySelectorAll("Loud", "Monkey", "Music", "Drink", "damagedMonster")
 
   
   function playGame() {
@@ -487,22 +487,26 @@ function makeLibrarianButtons(allLibrarians) {
             y = y + 50
             const monsterImg = document.createElement('img')
             switch (monster.monster_name) {
-                case "Loud Child":
+                case "Loud":
+                case "Loud damagedMonster":
                     monsterImg.src = './src/images/monster1.gif';
                     monsterImg.id = `${monster.id}`
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 390; width: 100; height: 100;`
                     break;
                 case "Monkey":
+                case "Monkey damagedMonster":
                     monsterImg.src = './src/images/monster2.gif'  
                     monsterImg.id = `${monster.id}`              
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 380; width: 100; height: 100;`
                     break;
                 case "Music":
+                case "Music damagedMonster":
                     monsterImg.src = './src/images/monster3.png'
                     monsterImg.id = `${monster.id}`
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 415; width: 30; height: 30;`
                     break;                  
-                case "Drink Cup":
+                case "Drink":
+                case "Drink damagedMonster":
                     monsterImg.src = './src/images/monster4.png'  
                     monsterImg.id = `${monster.id}`                
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 375; width: 100; height: 100;`
@@ -522,7 +526,6 @@ function makeLibrarianButtons(allLibrarians) {
     var count, repeat, i
 
     function moveMonsters() {
-        debugger;
         clearInterval(repeat)
         repeat = setInterval(changeY, 20)
   }
@@ -536,14 +539,19 @@ function makeLibrarianButtons(allLibrarians) {
             let yPos = currentMonstersDiv[i].style.top.replace('px','')
             y = parseInt(yPos, 10)
             
-            switch (currentMonstersDiv[i].className) {
-                case "Loud Child":
+            // switch (currentMonstersDiv[i].className) {
+               switch (true) {
+                case ["Loud", "Loud damagedMonster"].includes(currentMonstersDiv[i].className):
+                // case "Loud damagedMonster":
+                    console.log("move")
                     x -= 1
                     break;
                 case "Monkey":
+                case "Monkey damagedMonster":
                     x -=2
                     break;
                 case "Music":
+                case "Music damagedMonster":
                     x -= 3
                     y -= Math.floor(Math.random() * 5) - 2
                     if (y > 800) {
@@ -554,7 +562,8 @@ function makeLibrarianButtons(allLibrarians) {
                         y = 100
                     }
                     break;
-                case "Drink Cup":
+                case "Drink":
+                case "Drink damagedMonster":
                     x -= 2
                     break;
             }
@@ -600,21 +609,31 @@ function makeLibrarianButtons(allLibrarians) {
     function damage() {
        currentDefenders.forEach(function(defender){
            currentMonstersDiv.forEach(function(monster){
+            let tempVar = monster.className.split(' ')[0]
+            // console.log(`${tempVar}`)
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
                 let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
                 monster.health -= defenderDamage
+                // console.log(`made it inside the damgage if`)
                 // console.log(`Defender Left ${defender.offsetLeft}`)
             // console.log(`Monster Left ${monster.offsetLeft}`)
             // console.log(`Defender Top ${defender.offsetTop}`)
             // console.log(`Monster Top ${monster.offsetTop}`)
                 // console.log("hit!")
-                
+                // console.log(`name before damaged monster addition ${monster.className}`)
                 monster.className = `${monster.className} damagedMonster`
-                setTimeout(function(){
-                    monster.className = "Loud"
-                }, 500)
+                // setTimeout(function(){
+                //     monster.className = tempVar
+                // }, 10)
+                    // console.log(`Name in timeout ${monster.className}`)
                }
+
+               setTimeout(function(){
+                    monster.className = tempVar
+                }, 500)
+
                if(monster.health < 1){
+                //    console.log(`are these asynchronous? ${monster.className}`)
                     let deadMonster = currentMonstersDiv.find(function(divItem){
                         return divItem.id === monster.id
                     })
