@@ -30,7 +30,6 @@ const map = document.getElementById('maparea')
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    getAllLibrarians()
 
     
     newPlayer.addEventListener("click", function() {
@@ -136,109 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //     <img class='imginside' src="unnamed.png">
     // </div>
     const map = document.getElementById('maparea')
-    const librarian1button = document.getElementById('defender1button')
-    librarian1button.addEventListener('click',function(event){
-        event.preventDefault()
-        let lib1 = allLibrarians.librarian1
-        if(currentMoney >= lib1.cost){
-            currentMoney -= lib1.cost
-            sideNavMoney.innerText = `Money: ${currentMoney}`
-            const itemdiv = document.createElement('div')
-            itemdiv.id = "item1"
-            itemdiv.className = "child"
-            item.attack = lib1.attack_damage
-            debugger;
-            const itemimg = document.createElement('img')
-            itemimg.className = "imginside"
-            itemimg.setAttribute('src', "./src/images/librarian1.png")
-            itemdiv.appendChild(itemimg)
-            currentDefenders.push(itemdiv)
-
-            map.appendChild(itemdiv)
-            $(function () {
-                $("div[id='item1']").draggable({
-                    containment: "#con",
-                    scroll: false
-                });
-            }); 
-        }
-    })
-    const librarian2button = document.getElementById('defender2button')
-    librarian2button.addEventListener('click',function(event){
-        event.preventDefault()
-        let lib2 = allLibrarians.librarian2
-        if(currentMoney >= lib2.cost){
-            debugger;
-            currentMoney -= lib2.cost
-            sideNavMoney.innerText = `Money: ${currentMoney}`
-            const itemdiv = document.createElement('div')
-            itemdiv.id = "item2"
-            itemdiv.className = "child"
-            item.attack = lib2.attack_damage
-            const itemimg = document.createElement('img')
-            itemimg.setAttribute('src', "./src/images/librarian2.png")
-            itemimg.className = "imginside"
-            itemdiv.appendChild(itemimg)
-            map.appendChild(itemdiv)
-            currentDefenders.push(itemdiv)
-            $(function () {
-                $("div[id='item2']").draggable({
-                    containment: "#con",
-                    scroll: false
-                });
-            });
-        }
-    })
-    const librarian3button = document.getElementById('defender3button')
-    librarian3button.addEventListener('click',function(event){
-        event.preventDefault()
-        let lib3 = allLibrarians.librarian3
-        if(currentMoney >= lib3.cost){
-            currentMoney -= lib3.cost
-            sideNavMoney.innerText = `Money: ${currentMoney}`
-            const itemdiv = document.createElement('div')
-            itemdiv.id = "item3"
-            itemdiv.className = "child"
-            item.attack = lib3.attack_damage
-            const itemimg = document.createElement('img')
-            itemimg.setAttribute('src', "./src/images/librarian3.png")
-            itemimg.className = "imginside"
-            itemdiv.appendChild(itemimg)
-            map.appendChild(itemdiv)
-            currentDefenders.push(itemdiv)
-            $(function () {
-                $("div[id='item3']").draggable({
-                    containment: "#con",
-                    scroll: false
-                });
-            });
-        }
-    })
-    const librarian4button = document.getElementById('defender4button')
-    librarian4button.addEventListener('click',function(event){
-        event.preventDefault()
-        let lib4 = allLibrarians.librarian4
-        if(currentMoney >= lib4.cost){
-            currentMoney -= lilb4.cost
-            sideNavMoney.innerText = `Money: ${currentMoney}`
-            const itemdiv = document.createElement('div')
-            itemdiv.id = "item4"
-            itemdiv.className = "child"
-            item.attack = lib4.attack_damage
-            const itemimg = document.createElement('img')
-            itemimg.setAttribute('src', "./src/images/librarian4.png")
-            itemimg.className = "imginside"
-            itemdiv.appendChild(itemimg)
-            map.appendChild(itemdiv)
-            currentDefenders.push(itemdiv)
-            $(function () {
-                $("div[id='item4']").draggable({
-                    containment: "#con",
-                    scroll: false
-                });
-            });
-        }
-    })
+    
   })
 
   //^^^ the }) up above represents the end of the domcontentloaded event listener
@@ -379,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(function(data) {
         console.log(data)
         allLibrarians = data
+        makeLibrarianButtons(allLibrarians)
     })
     .catch((error) => {
         console.error('Error:', error)
@@ -387,6 +285,130 @@ document.addEventListener("DOMContentLoaded", function() {
 
 }
 
+function makeLibrarianButtons(allLibrarians) {
+    const librarian1button = document.getElementById('defender1button')
+    librarian1button.addEventListener('click',function(event){
+        event.preventDefault()
+        let lib1 = allLibrarians.librarian1
+        if(currentMoney >= lib1.cost){
+            currentMoney -= lib1.cost
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item1"
+            itemdiv.className = "child"
+            const itemP = document.createElement('p')
+            itemP.hidden = true
+            itemP.innerText = `${lib1.attack_damage}`
+            itemP.className = "damage"
+            itemdiv.appendChild(itemP)
+            const itemimg = document.createElement('img')
+            itemimg.className = "imginside"
+            itemimg.setAttribute('src', "./src/images/librarian1.png")
+            itemdiv.appendChild(itemimg)
+            currentDefenders.push(itemdiv)
+
+            map.appendChild(itemdiv)
+            $(function () {
+                $("div[id='item1']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            }); 
+        }
+    })
+    const librarian2button = document.getElementById('defender2button')
+    librarian2button.addEventListener('click',function(event){
+        event.preventDefault()
+        let lib2 = allLibrarians.librarian2
+        if(currentMoney >= lib2.cost){
+            // debugger;
+            currentMoney -= lib2.cost
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item2"
+            itemdiv.className = "child"
+            // item.attack = lib2.attack_damage
+            const itemP = document.createElement('p')
+            itemP.hidden = true
+            itemP.innerText = `${lib2.attack_damage}`
+            itemP.className = "damage"
+            itemdiv.appendChild(itemP)
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian2.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item2']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
+    })
+    const librarian3button = document.getElementById('defender3button')
+    librarian3button.addEventListener('click',function(event){
+        event.preventDefault()
+        let lib3 = allLibrarians.librarian3
+        if(currentMoney >= lib3.cost){
+            currentMoney -= lib3.cost
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item3"
+            itemdiv.className = "child"
+            // item.attack = lib3.attack_damage
+            const itemP = document.createElement('p')
+            itemP.hidden = true
+            itemP.innerText = `${lib3.attack_damage}`
+            itemP.className = "damage"
+            itemdiv.appendChild(itemP)
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian3.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item3']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
+    })
+    const librarian4button = document.getElementById('defender4button')
+    librarian4button.addEventListener('click',function(event){
+        event.preventDefault()
+        let lib4 = allLibrarians.librarian4
+        if(currentMoney >= lib4.cost){
+            currentMoney -= lilb4.cost
+            sideNavMoney.innerText = `Money: ${currentMoney}`
+            const itemdiv = document.createElement('div')
+            itemdiv.id = "item4"
+            itemdiv.className = "child"
+            // item.attack = lib4.attack_damage
+            const itemP = document.createElement('p')
+            itemP.hidden = true
+            itemP.innerText = `${lib4.attack_damage}`
+            itemP.className = "damage"
+            itemdiv.appendChild(itemP)
+            const itemimg = document.createElement('img')
+            itemimg.setAttribute('src', "./src/images/librarian4.png")
+            itemimg.className = "imginside"
+            itemdiv.appendChild(itemimg)
+            map.appendChild(itemdiv)
+            currentDefenders.push(itemdiv)
+            $(function () {
+                $("div[id='item4']").draggable({
+                    containment: "#con",
+                    scroll: false
+                });
+            });
+        }
+    })
+    
+}
 
   //=============================================
   //GamePlay Stuff
@@ -411,6 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
   function playGame() {
+    getAllLibrarians()
       levelFetch()
       alert ("Your library is under attack!")
 
@@ -561,8 +584,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log(`Defender Top ${defender.offsetTop}`)
             // console.log(`Monster Top ${monster.offsetTop}`)
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
-  o
-                monster.health -= defender.attack
+                   console
+                let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
+                monster.health -= defenderDamage
+                // debugger;
                 console.log(`Defender Left ${defender.offsetLeft}`)
             console.log(`Monster Left ${monster.offsetLeft}`)
             console.log(`Defender Top ${defender.offsetTop}`)
