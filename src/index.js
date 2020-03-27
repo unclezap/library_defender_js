@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function() {
     })
     .then(function(data) {
         thisUser = data
-        console.log(data)
     })
     .catch((error) => {
         console.error('Error:', error)
@@ -236,7 +235,6 @@ document.addEventListener("DOMContentLoaded", function() {
         oldGamesForm.appendChild(oldGameInput)
         oldGameInput.addEventListener('click', function(event){
             event.preventDefault()
-            console.log("clicked an old game")
             thisGame = userGames.find(possibleGame => possibleGame.id === game.id)
             playGame()    
         })
@@ -274,7 +272,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return response.json()
     })
     .then(function(data) {
-        console.log(data)
         allLibrarians = data
         makeLibrarianButtons(allLibrarians)
     })
@@ -380,7 +377,6 @@ function makeLibrarianButtons(allLibrarians) {
     librarian4button.addEventListener('click',function(event){
         event.preventDefault()
         let lib4 = allLibrarians.librarian4
-        debugger;
         if(currentMoney >= lib4.cost){
             currentMoney -= lib4.cost
             sideNavMoney.innerText = `Money: ${currentMoney}`
@@ -416,7 +412,7 @@ function makeLibrarianButtons(allLibrarians) {
 //   const usersURL = 'http://localhost:3000/users'
 //   const gamesURL = 'http://localhost:3000/games'
   const levelsURL = 'http://localhost:3000/levels'
-  const librariesURL = 'http://localhost:3000/levels'
+  const librariesURL = 'http://localhost:3000/libraries'
   const librariansURL = 'http://localhost:3000/defenders'
   
   let thisLevel;
@@ -586,7 +582,6 @@ function makeLibrarianButtons(allLibrarians) {
             console.log(`Monster Top ${monster.offsetTop}`)
             console.log
                 console.log("hit!")
-                console.log(monster)
                 
                 // monster.className = `${monster.className} damagedMonster`
                 monster.className = `${monster.className} damagedMonster`
@@ -605,12 +600,11 @@ function makeLibrarianButtons(allLibrarians) {
                     })
                     monster.parentElement.removeChild(monster)
                     currentMonsters.pop()
-                    // currentMonsters.filter(function(m){
-                    //     console.log(m.id)
-                    //     console.log(monster.id)
-                    //     return monster.id !== m.id
-                    // })
-                    // console.log(currentMonstersDiv)
+
+                    if (currentMonsters.length === 0) {
+                        alert ("Congratulations!")
+                        nextLevel()
+                    }
                }
            })
        }) 
@@ -618,6 +612,80 @@ function makeLibrarianButtons(allLibrarians) {
     
 
     function nextLevel() {
-        // fetch(levelsURL)
-        
+        updateGameAndLibrary()               
+    }
+
+
+    function updateGameAndLibrary() {
+        fetch(`${gamesURL}/${thisGame.id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                thisGame,
+                currentMoney
+            })
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(data) {
+            thisGame = data
+            makeNewLevel(thisGame)
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+            alert ("SAVE DIDN'T SAVE!")
+        })
+
+        fetch(`${librariesURL}/${thisLibrary.id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                thisLibrary,
+                currentHealth
+            })
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(data) {
+            thisLibrary = data
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+            alert ("LIBRARY DIDN'T SAVE!")
+        })
+    }
+
+    function makeNewLevel() {
+        fetch(levelsURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                thisGame,
+                thisLevel
+            })
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(data) {
+            debugger;
+            thisLevel = data
+            console.log(data)
+            return data
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+            alert ("IMAGINARY LEVEL")
+        }) 
     }
