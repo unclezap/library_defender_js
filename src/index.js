@@ -598,17 +598,18 @@ function makeLibrarianButtons(allLibrarians) {
         }
 
         if (currentHealth <= 0) {
-            debugger;
-            currentMonsters = []
-            currentMonstersDiv = []
-        const oldMonsters = document.getElementsByClassName("allMonsters")
-        i = 0
-        while (i < oldMonsters.length) {
-            oldMonsters[i].remove()
-        i++    
-        }
+            // debugger;
+        //     currentMonsters = []
+        //     currentMonstersDiv = []
+        //     const oldMonsters = document.getElementsByClassName("allMonsters")
+        //     i = 0
+        // while (i < oldMonsters.length) {
+        //     oldMonsters.innerHTML = ""
+        //     oldMonsters.innerText = ""
+        // i++    
+        // }
         
-            debugger;
+            // debugger;
             // oldMonsters.parentNode.removeChild(oldMonsters)
             
             console.log("hi")
@@ -624,17 +625,9 @@ function makeLibrarianButtons(allLibrarians) {
     function damage() {
        currentDefenders.forEach(function(defender){
            currentMonstersDiv.forEach(function(monster){
-               if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
-                //    console.log(`${monster.className}`)
+               if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 200) && (Math.abs(defender.offsetTop - monster.offsetTop) < 200)) {
                 let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
                 monster.health -= defenderDamage
-                // console.log(`Defender Left ${defender.offsetLeft}`)
-            // console.log(`Monster Left ${monster.offsetLeft}`)
-            // console.log(`Defender Top ${defender.offsetTop}`)
-            // console.log(`Monster Top ${monster.offsetTop}`)
-                // console.log("hit!")
-                
-                // monster.type = `${monster.className}`
                 monster.className = `${monster.className} damagedMonster`
                 setTimeout(function(){
                     monster.className = monster.type
