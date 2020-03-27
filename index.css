@@ -228,3 +228,7 @@
     position: relative;
     animation: mymove 30s ;
 }
+.damagedMonster {
+    opacity: 0.5;
+    filter: invert(100%);
+}

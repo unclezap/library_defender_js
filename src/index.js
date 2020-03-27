@@ -445,18 +445,21 @@ document.addEventListener("DOMContentLoaded", function() {
             switch (monster.monster_name) {
                 case "Loud Child":
                     monsterImg.src = './src/images/monster1.gif';
+                    
                     break;
                 case "Monkey":
-                    monsterImg.src = './src/images/'                  
+                    monsterImg.src = './src/images/'  
+                                   
                     break;
                 case "Music":
-                    monsterImg.src = './src/images/monster3.png'                   
+                    monsterImg.src = './src/images/monster3.png'
+                                      
                 case "Drink Cup":
-                    monsterImg.src = './src/images/monster4.png'                  
+                    monsterImg.src = './src/images/monster4.png'  
+                                    
             }
             monsterImg.style=`position:absolute; left: 1150; top: ${y}; width: 100; height: 100;`
             monsterImg.className = `${monster.monster_name}`
-
             const imgDiv = document.createElement('div')
             monsterImg.health = monster.health
             imgDiv.id = `${monster.id}`
@@ -533,13 +536,20 @@ document.addEventListener("DOMContentLoaded", function() {
             // console.log(`Defender Top ${defender.offsetTop}`)
             // console.log(`Monster Top ${monster.offsetTop}`)
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
-                   monster.health -= 1
+                   monster.health -= 0.01
                 //    debugger;
                 console.log(`Defender Left ${defender.offsetLeft}`)
             console.log(`Monster Left ${monster.offsetLeft}`)
             console.log(`Defender Top ${defender.offsetTop}`)
             console.log(`Monster Top ${monster.offsetTop}`)
                 console.log("hit!")
+                console.log(monster)
+                
+                // monster.className = `${monster.className} damagedMonster`
+                monster.className = `${monster.className} damagedMonster`
+                setTimeout(function(){
+                    monster.className = "Loud"
+                }, 500)
                 console.log(monster.health)
                }
                if(monster.health < 1){
