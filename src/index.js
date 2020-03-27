@@ -466,6 +466,7 @@ function makeLibrarianButtons(allLibrarians) {
         return response.json()
     })
     .then(function(data) {
+        console.log(data)
         currentMonsters = data.monsters
         monstersAttack()
     })  
@@ -493,7 +494,7 @@ function makeLibrarianButtons(allLibrarians) {
                     monsterImg.id = `${monster.id}`
                     break;
                 case "Monkey":
-                    monsterImg.src = './src/images/'  
+                    monsterImg.src = './src/images/monster2.gif'  
                     monsterImg.id = `${monster.id}`              
                     break;
                 case "Music":
@@ -678,10 +679,12 @@ function makeLibrarianButtons(allLibrarians) {
             return response.json()
         })
         .then(function(data) {
-            debugger;
             thisLevel = data
+            currentMonsters = data.monsters
+            sideNavLevel.innerText = `Level: ${data.level_number}`
+            currentDefenders[0].hidden = true
+            monstersAttack()
             console.log(data)
-            return data
         })
         .catch((error) => {
             console.error('Error:', error)
