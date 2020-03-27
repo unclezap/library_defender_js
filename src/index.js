@@ -466,9 +466,9 @@ function makeLibrarianButtons(allLibrarians) {
         return response.json()
     })
     .then(function(data) {
-        console.log(data)
         currentMonsters = data.monsters
-        monstersAttack()
+        console.log(`currentMonsters at fetchMonsters ${currentMonsters}`)
+        makeMonsterTabs()
     })  
     .catch((error) => {
         console.error('Error', error)
@@ -482,29 +482,33 @@ function makeLibrarianButtons(allLibrarians) {
       sideNavMoney.innerText = `Money: $${currentMoney}`
     }
 
-    function monstersAttack() {
-        console.log(currentMonsters)
-        let y = 345
+    function makeMonsterTabs() {
+        console.log(`current monsters at Make Monster Tab ${currentMonsters}`)
+        let y = 0
         currentMonsters.forEach((monster) => {
-            y = y + 40
+            y = y + 50
             const monsterImg = document.createElement('img')
             switch (monster.monster_name) {
                 case "Loud Child":
                     monsterImg.src = './src/images/monster1.gif';
                     monsterImg.id = `${monster.id}`
+                    monsterImg.style=`position:absolute; left: ${1150 + y}; top: 375; width: 100; height: 100;`
                     break;
                 case "Monkey":
                     monsterImg.src = './src/images/monster2.gif'  
                     monsterImg.id = `${monster.id}`              
+                    monsterImg.style=`position:absolute; left: ${1150 + y}; top: 380; width: 100; height: 100;`
                     break;
                 case "Music":
                     monsterImg.src = './src/images/monster3.png'
-                    monsterImg.id = `${monster.id}`                  
+                    monsterImg.id = `${monster.id}`
+                    monsterImg.style=`position:absolute; left: ${1150 + y}; top: 415; width: 30; height: 30;`
+                    break;                  
                 case "Drink Cup":
                     monsterImg.src = './src/images/monster4.png'  
                     monsterImg.id = `${monster.id}`                
-            }
-            monsterImg.style=`position:absolute; left: 1150; top: ${y}; width: 100; height: 100;`
+                    monsterImg.style=`position:absolute; left: ${1150 + y}; top: 375; width: 100; height: 100;`
+                }
             monsterImg.className = `${monster.monster_name}`
             const imgDiv = document.createElement('div')
             monsterImg.health = monster.health
@@ -513,12 +517,13 @@ function makeLibrarianButtons(allLibrarians) {
             map.appendChild(imgDiv)
             currentMonstersDiv.push(monsterImg)
         })
-        moveLoudChildren()
+        moveMonsters()
     }
 
     var count, repeat, i
 
-    function moveLoudChildren() {
+    function moveMonsters() {
+        debugger;
         clearInterval(repeat)
         repeat = setInterval(changeY, 20)
   }
@@ -526,34 +531,32 @@ function makeLibrarianButtons(allLibrarians) {
     function changeY() {
         let x
         i = 0
-        while (i < kids.length) {
-            let xPos = kids[i].style.left.replace('px','')
+        while (i < currentMonstersDiv.length) {
+            let xPos = currentMonstersDiv[i].style.left.replace('px','')
             x = parseInt(xPos, 10)
-            kids[i].style.left = `${x - 1}px`
+            currentMonstersDiv[i].style.left = `${x - 1}px`
             damage()
             i++
         }
             
         if (x < 300) {
             clearInterval(repeat)
-            kidsAttack()
+            monstersAttack()
         }
-        ///janky pls fix
-        // if(x<500){
-        // }
+
     } 
 
-    function kidsAttack() {
+    function monstersAttack() {
         clearInterval(repeat)
         repeat = setInterval(dealDamage, 10)
     }
 
     function dealDamage() {
         i = 0
-        while (i < kids.length) {
-            let kidId = kids[i].parentElement.id
-            let monster = currentMonsters.find(monster => monster.id = kidId)
-            // currentHealth -= monster.attack_damage
+        while (i < currentMonstersDiv.length) {
+            let monId = currentMonstersDiv[i].id
+            let monster = currentMonsters.find(monster => monster.id == monId)
+            currentHealth -= monster.attack_damage
             sideNavLibrary.innerText = `Books: ${currentHealth}    `
             i++
         }
@@ -572,22 +575,18 @@ function makeLibrarianButtons(allLibrarians) {
        currentDefenders.forEach(function(defender){
            currentMonstersDiv.forEach(function(monster){
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
-                   console
                 let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
                 monster.health -= defenderDamage
-                console.log(`Defender Left ${defender.offsetLeft}`)
-            console.log(`Monster Left ${monster.offsetLeft}`)
-            console.log(`Defender Top ${defender.offsetTop}`)
-            console.log(`Monster Top ${monster.offsetTop}`)
-            console.log
-                console.log("hit!")
+                // console.log(`Defender Left ${defender.offsetLeft}`)
+            // console.log(`Monster Left ${monster.offsetLeft}`)
+            // console.log(`Defender Top ${defender.offsetTop}`)
+            // console.log(`Monster Top ${monster.offsetTop}`)
+                // console.log("hit!")
                 
-                // monster.className = `${monster.className} damagedMonster`
                 monster.className = `${monster.className} damagedMonster`
                 setTimeout(function(){
                     monster.className = "Loud"
                 }, 500)
-                console.log(monster.health)
                }
                if(monster.health < 1){
                     let deadMonster = currentMonstersDiv.find(function(divItem){
@@ -599,9 +598,8 @@ function makeLibrarianButtons(allLibrarians) {
                     })
                     monster.parentElement.removeChild(monster)
                     currentMonsters.pop()
-
+                    console.log(`current Monsters at monster kill ${currentMonsters}`)
                     if (currentMonsters.length === 0) {
-                        
                         alert ("Congratulations!")
                         nextLevel()
                     }
@@ -612,6 +610,7 @@ function makeLibrarianButtons(allLibrarians) {
     
 
     function nextLevel() {
+        console.log(`Monsters at nextLevel ${currentMonsters}`)
         updateGameAndLibrary()               
     }
 
@@ -680,11 +679,10 @@ function makeLibrarianButtons(allLibrarians) {
         })
         .then(function(data) {
             thisLevel = data
-            currentMonsters = data.monsters
+            currentMonsters = data.monsters.splice(0, data.monsters.length/2)
             sideNavLevel.innerText = `Level: ${data.level_number}`
-            currentDefenders[0].hidden = true
-            monstersAttack()
-            console.log(data)
+            // currentDefenders[0].hidden = true
+            makeMonsterTabs()
         })
         .catch((error) => {
             console.error('Error:', error)
