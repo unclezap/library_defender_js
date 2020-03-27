@@ -487,29 +487,34 @@ function makeLibrarianButtons(allLibrarians) {
             y = y + 50
             const monsterImg = document.createElement('img')
             switch (monster.monster_name) {
-                case "Loud Child":
+                case "Loud":
                     monsterImg.src = './src/images/monster1.gif';
                     monsterImg.id = `${monster.id}`
+                    monsterImg.type = "Loud"
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 390; width: 100; height: 100;`
                     break;
                 case "Monkey":
                     monsterImg.src = './src/images/monster2.gif'  
-                    monsterImg.id = `${monster.id}`              
+                    monsterImg.id = `${monster.id}` 
+                    monsterImg.type = "Monkey"             
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 380; width: 100; height: 100;`
                     break;
                 case "Music":
                     monsterImg.src = './src/images/monster3.png'
                     monsterImg.id = `${monster.id}`
+                    monsterImg.type = "Music"
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 415; width: 30; height: 30;`
                     break;                  
-                case "Drink Cup":
+                case "Drink":
                     monsterImg.src = './src/images/monster4.png'  
-                    monsterImg.id = `${monster.id}`                
+                    monsterImg.id = `${monster.id}`    
+                    monsterImg.type = "Drink"            
                     monsterImg.style=`position:absolute; left: ${1150 + y}; top: 375; width: 100; height: 100;`
                     break;
                 }
             monsterImg.className = `${monster.monster_name}`
             const imgDiv = document.createElement('div')
+            imgDiv.className = "allMonsters"
             monsterImg.health = monster.health
             imgDiv.appendChild(monsterImg)
 
@@ -535,9 +540,12 @@ function makeLibrarianButtons(allLibrarians) {
             x = parseInt(xPos, 10)
             let yPos = currentMonstersDiv[i].style.top.replace('px','')
             y = parseInt(yPos, 10)
+            if (!!currentMonstersDiv[i].type) {
+                currentMonstersDiv[i].className = currentMonstersDiv[i].type
+            }
             
             switch (currentMonstersDiv[i].className) {
-                case "Loud Child":
+                case "Loud":
                     x -= 1
                     break;
                 case "Monkey":
@@ -554,7 +562,7 @@ function makeLibrarianButtons(allLibrarians) {
                         y = 100
                     }
                     break;
-                case "Drink Cup":
+                case "Drink":
                     x -= 2
                     break;
             }
@@ -579,15 +587,31 @@ function makeLibrarianButtons(allLibrarians) {
 
     function dealDamage() {
         i = 0
-        while (i < currentMonstersDiv.length) {
-            let monId = currentMonstersDiv[i].id
-            let monster = currentMonsters.find(monster => monster.id == monId)
-            currentHealth -= monster.attack_damage
+        while (i < currentMonstersDiv.length && currentHealth >= 0) {
+            // debugger;
+            // let monId = currentMonstersDiv[i].id
+            let mon = currentMonsters.find(monster => monster.id == currentMonstersDiv[i].id)
+            currentHealth -= mon.attack_damage
+            // debugger;
             sideNavLibrary.innerText = `Books: ${currentHealth}    `
             i++
         }
 
         if (currentHealth <= 0) {
+            debugger;
+            currentMonsters = []
+            currentMonstersDiv = []
+        const oldMonsters = document.getElementsByClassName("allMonsters")
+        i = 0
+        while (i < oldMonsters.length) {
+            oldMonsters[i].remove()
+        i++    
+        }
+        
+            debugger;
+            // oldMonsters.parentNode.removeChild(oldMonsters)
+            
+            console.log("hi")
             sideNavLibrary.innerText = `Books: 0 `
             clearInterval(repeat)
             alert ("The Library is out of books!  Illiteracy has befallen the populace!")
@@ -601,6 +625,7 @@ function makeLibrarianButtons(allLibrarians) {
        currentDefenders.forEach(function(defender){
            currentMonstersDiv.forEach(function(monster){
                if((Math.abs(defender.offsetLeft - monster.offsetLeft) < 300) && (Math.abs(defender.offsetTop - monster.offsetTop) < 300)) {
+                //    console.log(`${monster.className}`)
                 let defenderDamage = defender.getElementsByClassName("damage")[0].textContent
                 monster.health -= defenderDamage
                 // console.log(`Defender Left ${defender.offsetLeft}`)
@@ -609,9 +634,10 @@ function makeLibrarianButtons(allLibrarians) {
             // console.log(`Monster Top ${monster.offsetTop}`)
                 // console.log("hit!")
                 
+                // monster.type = `${monster.className}`
                 monster.className = `${monster.className} damagedMonster`
                 setTimeout(function(){
-                    monster.className = "Loud"
+                    monster.className = monster.type
                 }, 500)
                }
                if(monster.health < 1){
@@ -635,6 +661,8 @@ function makeLibrarianButtons(allLibrarians) {
     
 
     function nextLevel() {
+        // oldMonsters.hidden = true
+        // oldMonsters.parentNode.removeChild(oldMonsters)
         updateGameAndLibrary()               
     }
 
