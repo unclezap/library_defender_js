@@ -323,7 +323,6 @@ function makeLibrarianButtons(allLibrarians) {
             const itemdiv = document.createElement('div')
             itemdiv.id = "item2"
             itemdiv.className = "child"
-            // item.attack = lib2.attack_damage
             const itemP = document.createElement('p')
             itemP.hidden = true
             itemP.innerText = `${lib2.attack_damage}`
@@ -353,7 +352,6 @@ function makeLibrarianButtons(allLibrarians) {
             const itemdiv = document.createElement('div')
             itemdiv.id = "item3"
             itemdiv.className = "child"
-            // item.attack = lib3.attack_damage
             const itemP = document.createElement('p')
             itemP.hidden = true
             itemP.innerText = `${lib3.attack_damage}`
@@ -602,6 +600,7 @@ function makeLibrarianButtons(allLibrarians) {
                     currentMonsters.pop()
 
                     if (currentMonsters.length === 0) {
+                        
                         alert ("Congratulations!")
                         nextLevel()
                     }
